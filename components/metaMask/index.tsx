@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import Elements from "./Elements";
+import TransActions from "./TransActions";
 import { AccountType } from "./Types";
 
 const MetaMask = () => {
@@ -114,7 +115,6 @@ const MetaMask = () => {
     }
   }, [hasExtension, connectHandler]);
 
-
   
 
   return (
@@ -122,11 +122,18 @@ const MetaMask = () => {
       <h1 className="text-6xl font-bold text-center mb-10">MetaMask</h1>
 
       <Elements
+        connectHandler={connectHandler}
         address={currentAccount.address}
         balance={currentAccount.balance}
         isConnected={currentAccount.isConnected}
+        />
+
+      <TransActions
         connectHandler={connectHandler}
-      />
+        address={currentAccount.address}
+        balance={currentAccount.balance}
+        isConnected={currentAccount.isConnected}
+       />
     </>
   );
 };

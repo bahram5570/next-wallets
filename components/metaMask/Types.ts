@@ -10,7 +10,14 @@ export type AccountType = {
   isConnected: boolean;
 };
 
-export interface Props {
+export interface ElementsProps {
+  address: null | string;
+  balance: null | number;
+  isConnected: boolean;
+  connectHandler: () => void;
+}
+
+export interface TransActionsProps {
   address: null | string;
   balance: null | number;
   isConnected: boolean;

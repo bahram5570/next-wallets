@@ -1,6 +1,6 @@
-import { Props } from "./Types";
+import { ElementsProps } from "./Types";
 
-const Elements = (props: Props) => {
+const Elements = (props: ElementsProps) => {
   return (
     <>
       {!props.isConnected && (
@@ -13,7 +13,7 @@ const Elements = (props: Props) => {
       )}
 
       {props.isConnected && (
-        <div className="flex flex-col text-3xl gap-4">
+        <div className="flex flex-col text-3xl gap-4 mb-32">
           <span>Address: {props.address}</span>
           <span>Balance: {props.balance}</span>
         </div>

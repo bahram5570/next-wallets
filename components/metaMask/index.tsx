@@ -118,7 +118,7 @@ const MetaMask = () => {
   
 
   return (
-    <>
+    <section>
       <h1 className="text-6xl font-bold text-center mb-10">MetaMask</h1>
 
       <Elements
@@ -134,7 +134,7 @@ const MetaMask = () => {
         balance={currentAccount.balance}
         isConnected={currentAccount.isConnected}
        />
-    </>
+    </section>
   );
 };
 

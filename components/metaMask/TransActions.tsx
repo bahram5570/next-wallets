@@ -4,8 +4,8 @@ const TransActions = (props: TransActionsProps) => {
 
   const sendHandler = async () => {
 
-    const chainId = await window.ethereum.request({ method: "eth_chainId" });
-    const requiredId = "0x5";
+    const chainId = await window.ethereum.request({ method: "eth_chainId" });    
+    const requiredId = "0xaa36a7";
     
     
     // # Check if the network are equal
@@ -25,7 +25,7 @@ const TransActions = (props: TransActionsProps) => {
       try {
         const params = {
           from: window.ethereum.selectedAddress,
-          to: "0x9a1eacd0dbe88b9c368c9082f47c722aeeb40000",
+          to: "0x1Ed9eFAA67Cbe4c3843ca9F0464F419A2F324ab5",
           gas: "0x5208",
           value: (0.001 * Math.pow(10, 18)).toString(16),
         };

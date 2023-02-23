@@ -10,12 +10,12 @@ export default function Home() {
         MetaMask
       </Link>
 
-      <Link
+      {/* <Link
         href="/connectWallet"
         className="text-blue-800 text-2xl font-bold border-4 border-blue-800 rounded-lg px-5 py-3"
       >
         ConnectWallet
-      </Link>
+      </Link> */}
     </section>
   );
 }

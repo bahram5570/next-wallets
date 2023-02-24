@@ -16,3 +16,47 @@ Recovery phrases:
 10. frequent 
 11. win 
 12. cousin
+
+
+
+
+----- CoinBase -----
+
+Password: nextjs13
+
+Recovery phrases:
+
+1. replace 
+2. help 
+3. chapter 
+4. ski 
+5. mirror 
+6. town 
+7. visa 
+8. cup 
+9. idle 
+10. avoid 
+11. denial 
+12. zoo
+
+
+
+
+----- Phantom -----
+
+Password: 00000000
+
+Recovery phrases:
+
+1. kidney 
+2. region 
+3. kangaroo 
+4. chase 
+5. casino 
+6. hurt 
+7. abstract 
+8. lecture 
+9. hedgehog 
+10. blush 
+11. width 
+12. credit

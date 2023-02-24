@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import Elements from "./Elements";
-import TransActions from "./TransActions";
 import { AccountType } from "./Types";
 
-const MetaMask = () => {
+const Phantom = () => {
 
   const [currentAccount, setCurrentAccount] = useState<AccountType>({
     address: null,
@@ -14,25 +13,20 @@ const MetaMask = () => {
 
 
 
-  // # Tracking the extension installation and MetaMask wallet
+  // # Tracking the extension installation and Phantom wallet
   const [hasExtension, setHasExtension] = useState(false);
   const [provider, setProvider] = useState<any>(null)
 
-  useEffect(() => {
-    // # Check if there's any other wallets
-    if (window.ethereum.providers) {
-      setProvider(window.ethereum.providers[1])
+  useEffect(() => {    
+
+    // # Check if the wallet is installed
+    if ("phantom" in window) {
+      setProvider(window.phantom?.solana)
       setHasExtension(true);
     }
     
-    // # Or just set the current wallet
-    else if (!window.ethereum.isCoinbaseWallet) {
-      setProvider(window.ethereum)
-      setHasExtension(true);
-    }
   }, []);
   
-
 
 
 
@@ -43,42 +37,34 @@ const MetaMask = () => {
     if (hasExtension) {
       try {
         // # Get the open the extension and address wallet
-        const request = await provider.request({
-          method: "eth_requestAccounts",
-        });
+        const request = await provider.connect();
 
-        await accountHandler(request[0]);
+        await accountHandler(request.publicKey.toString());
       } catch (error: any) {
         if (
           error.message.includes(
             "Request of type 'wallet_requestPermissions' already pending for origin"
           )
         ) {
-          alert("MetaMask extension is open!");
+          alert("Phantom extension is open!");
         }
       }
     } else {
-      window.open("https://metamask.io/download/", "_blank");
+      window.open("https://phantom.app/download", "_blank");
     }
   }, [hasExtension]);
 
   // # Get the balance account and set the state
   const accountHandler = async (address: string) => {
-    const request = await provider.request({
-      method: "eth_getBalance",
-      params: [address, "latest"],
-    });
-
-    const dec = parseInt(request, 16);
-    const balance = dec / 10 ** 18;
 
     setCurrentAccount({
       address,
-      balance,
+      balance: 0,
       isConnected: true,
     });
+    
 
-    localStorage.setItem("metaMaskIsConnected", "true");
+    localStorage.setItem("phantomIsConnected", "true");
   };
 
 
@@ -94,7 +80,7 @@ const MetaMask = () => {
             balance: null,
             isConnected: false,
           });
-          localStorage.removeItem("metaMaskIsConnected");
+          localStorage.removeItem("phantomIsConnected");
         } else {
 
           // # Set the data after connecting and changing the account
@@ -120,35 +106,41 @@ const MetaMask = () => {
 
   // # Connect after refresh
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem("metaMaskIsConnected");
+    const isLoggedIn = localStorage.getItem("phantomIsConnected");
 
     if (hasExtension && isLoggedIn) {
       connectHandler();
     }
   }, [hasExtension, connectHandler]);
 
+
+
+
+  const disConnectHandler = async () => {    
+    await provider.disconnect()
+    localStorage.removeItem("phantomIsConnected");
+    setCurrentAccount({
+      address: null,
+      balance: null,
+      isConnected: false,
+    });
+  }
+
   
 
   return (
     <section>
-      <h1 className="text-6xl font-bold text-center mb-10">MetaMask</h1>
+      <h1 className="text-6xl font-bold text-center mb-10">Phantom</h1>
 
       <Elements
         connectHandler={connectHandler}
+        disConnectHandler={disConnectHandler}
         address={currentAccount.address}
         balance={currentAccount.balance}
         isConnected={currentAccount.isConnected}
         />
-
-      <TransActions
-        connectHandler={connectHandler}
-        address={currentAccount.address}
-        balance={currentAccount.balance}
-        isConnected={currentAccount.isConnected}
-        provider={provider}
-       />
     </section>
   );
 };
 
-export default MetaMask;
+export default Phantom;

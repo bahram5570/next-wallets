@@ -15,6 +15,7 @@ export interface ElementsProps {
   balance: null | number;
   isConnected: boolean;
   connectHandler: () => void;
+  disConnectHandler: () => void;
 }
 
 export interface TransActionsProps {

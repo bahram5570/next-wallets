@@ -3,7 +3,7 @@ import Elements from "./Elements";
 import TransActions from "./TransActions";
 import { AccountType } from "./Types";
 
-const MetaMask = () => {
+const CoinBase = () => {
 
   const [currentAccount, setCurrentAccount] = useState<AccountType>({
     address: null,
@@ -14,21 +14,22 @@ const MetaMask = () => {
 
 
 
-  // # Tracking the extension installation and MetaMask wallet
+  // # Tracking the extension installation and CoinBase wallet
   const [hasExtension, setHasExtension] = useState(false);
   const [provider, setProvider] = useState<any>(null)
-
+  
   useEffect(() => {
     // # Check if there's any other wallets
     if (window.ethereum.providers) {
-      setProvider(window.ethereum.providers[1])
+      setProvider(window.ethereum.providers[0])
       setHasExtension(true);
     }
     
-    // # Or just set the current wallet
-    else if (!window.ethereum.isCoinbaseWallet) {
+    // # Or just check the current wallet
+    else if (window.ethereum.isCoinbaseWallet) {
       setProvider(window.ethereum)
       setHasExtension(true);
+      
     }
   }, []);
   
@@ -39,7 +40,7 @@ const MetaMask = () => {
 
   // # Main connecting function
   const connectHandler = useCallback(async () => {
-
+        
     if (hasExtension) {
       try {
         // # Get the open the extension and address wallet
@@ -54,11 +55,11 @@ const MetaMask = () => {
             "Request of type 'wallet_requestPermissions' already pending for origin"
           )
         ) {
-          alert("MetaMask extension is open!");
+          alert("CoinBase extension is open!");
         }
       }
     } else {
-      window.open("https://metamask.io/download/", "_blank");
+      window.open("https://www.coinbase.com/wallet/downloads", "_blank");
     }
   }, [hasExtension]);
 
@@ -78,7 +79,7 @@ const MetaMask = () => {
       isConnected: true,
     });
 
-    localStorage.setItem("metaMaskIsConnected", "true");
+    localStorage.setItem("coinBaseIsConnected", "true");
   };
 
 
@@ -94,7 +95,7 @@ const MetaMask = () => {
             balance: null,
             isConnected: false,
           });
-          localStorage.removeItem("metaMaskIsConnected");
+          localStorage.removeItem("coinBaseIsConnected");
         } else {
 
           // # Set the data after connecting and changing the account
@@ -120,7 +121,7 @@ const MetaMask = () => {
 
   // # Connect after refresh
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem("metaMaskIsConnected");
+    const isLoggedIn = localStorage.getItem("coinBaseIsConnected");
 
     if (hasExtension && isLoggedIn) {
       connectHandler();
@@ -131,7 +132,7 @@ const MetaMask = () => {
 
   return (
     <section>
-      <h1 className="text-6xl font-bold text-center mb-10">MetaMask</h1>
+      <h1 className="text-6xl font-bold text-center mb-10">CoinBase</h1>
 
       <Elements
         connectHandler={connectHandler}
@@ -151,4 +152,4 @@ const MetaMask = () => {
   );
 };
 
-export default MetaMask;
+export default CoinBase;
